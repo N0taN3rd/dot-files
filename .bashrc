@@ -62,55 +62,12 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 
-#if [ "$color_prompt" = yes ]; then
-#    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-#else
-#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-#fi
 
-# PS1 Setup
-# enter blinking mode - red
-export LESS_TERMCAP_mb=$(printf '\e[01;31m')
-# enter double-bright mode - bold, magenta
-export LESS_TERMCAP_md=$(printf '\e[01;35m')
-# turn off all appearance modes (mb, md, so, us)
-export LESS_TERMCAP_me=$(printf '\e[0m')
-# leave standout mode
-export LESS_TERMCAP_se=$(printf '\e[0m')
-# enter standout mode - green
-export LESS_TERMCAP_so=$(printf '\e[01;32m')
-# leave underline mode
-export LESS_TERMCAP_ue=$(printf '\e[0m')
-# enter underline mode - blue
-export LESS_TERMCAP_us=$(printf '\e[04;34m')
-
-PROMPT_COMMAND=__prompt_command
-
-__prompt_command() {
-    local EXITCODE="$?"
-
-    local HOSTCOLOR="5"
-    local USERCOLOR="3"
-    local PATHCOLOR="4"
-
-    PS1="\n\e[3${PATHCOLOR}m \w \n";
-
-    if [ $EXITCODE == 0 ]; then
-        PS1+="\e[32m\$ \e[0m";
-    else
-        PS1+="\e[31m\$ \e[0m";
-    fi
-}
-
-
-
-
-
-# if [ "$color_prompt" = yes ]; then
-#    PS1='\[\033[01;34m\]\w\[\033[00m\]\$ '
-# else
-#    PS1='\w\$ '
-# fi
+if [ "$color_prompt" = yes ]; then
+    PS1='\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='\w\$ '
+ fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
@@ -183,7 +140,6 @@ if [[ -f ${N_PREFIX}/bin/node ]]; then
 fi
 
 export PATH="$HOME/.pyenv/bin:$PATH"
-
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+SELF_P="${HOME}/${BASH_SOURCE[0]}"
+SELF_D=$(dirname ${SELF_P})
+
+. "${SELF_D}/.generalFns"
+. "${SELF_D}/.dockerFns"
+. "${SELF_D}/.jsFns"
+. "${SELF_D}/.pyFns"

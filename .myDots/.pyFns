@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+activateVenv() {
+  if [[ -d "$PWD/venv" ]]; then
+    source "$PWD/venv/bin/activate"
+  fi
+}
+
+gotoPyProj () {
+  echo "Which Project: "
+  touch ~/PycharmProjects/quit.txt
+  select DIRECTORY in ~/PycharmProjects/*;
+  do
+      case ${DIRECTORY} in
+            *)
+              if [[ "$DIRECTORY" == *quit.txt** ]]; then
+                echo "Exiting"
+              else
+                echo "You picked $DIRECTORY ($REPLY)"
+                cd ${DIRECTORY}
+              fi
+              break
+              ;;
+      esac
+   done
+   activateVenv
+   rm ~/PycharmProjects/quit.txt
+}
+
+
+pipListOutdated () {
+  pip list --outdated
+}
+
+pipInstallUpgrade () {
+  pip install --upgrade "$@"
+}
+
+pipInstall () {
+  pip install "$@"
+}
+
+pipInstallReqs () {
+  pip install -r requirements.txt
+}
+
+pipUpgradeReqs () {
+  pip install --upgrade -r requirements.txt
+}
+
+pipInstallDevReqs () {
+  pip install -r dev-requirements.txt
+}
+
+pipUpgradeDevReqs () {
+  pip install --upgrade -r dev-requirements.txt
+}
+
+pyFormat () {
+  black --py36 "$@"
+}
