@@ -1,70 +1,70 @@
 #!/usr/bin/env bash
 
-dComposeRunIt () {
+dComposeRunIt() {
   docker-compose run "$@"
 }
 
-dComposeUpD () {
+dComposeUpD() {
   docker-compose up -d
 }
 
-dComposeDown () {
+dComposeDown() {
   docker-compose down --remove-orphans
 }
 
-dComposeBuild () {
+dComposeBuild() {
   docker-compose build --no-cache "$1"
 }
 
-dRunIt () {
+dRunIt() {
   docker run --rm -it "$@"
 }
 
-dRunBash () {
- docker run --rm -it --entrypoint /bin/bash "$1"
+dRunBash() {
+  docker run --rm -it --entrypoint /bin/bash "$1"
 }
 
-dBuildTagHere () {
+dBuildTagHere() {
   docker build . -t "$1"
 }
 
-dPS () {
+dPS() {
   docker ps -a
 }
 
-dImages () {
+dImages() {
   docker images ls
 }
 
-dImagesRm () {
+dImagesRm() {
   docker rmi "$@"
 }
 
-dImagesRmForce () {
+dImagesRmForce() {
   docker rmi --force "$@"
 }
 
-dContainers () {
+dContainers() {
   docker containers ls
 }
 
-dContainerRm () {
+dContainerRm() {
   docker container rm "$@"
 }
 
-dContainerReliesOn () {
+dContainerReliesOn() {
   for container in "$@"; do
     local state
-	state=$(docker inspect --format "{{.State.Running}}" "$container" 2>/dev/null)
+    state=$(docker inspect --format "{{.State.Running}}" "$container" 2>/dev/null)
 
-	if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
-		echo "$container is not running, starting it for you."
-		$container
-	fi
+    if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
+      echo "$container is not running, starting it for you."
+      $container
+    fi
   done
 }
 
-dCleanup(){
+dCleanup() {
   local containers
   mapfile -t containers < <(docker ps -aq 2>/dev/null)
   docker rm "${containers[@]}" 2>/dev/null
@@ -76,11 +76,12 @@ dCleanup(){
   docker rmi "${images[@]}" 2>/dev/null
 }
 
-dRemoveStopped () {
+dRemoveStopped() {
   local name=$1
   local state
   state=$(docker inspect --format "{{.State.Running}}" "$name" 2>/dev/null)
   if [[ "$state" == "false" ]]; then
-	docker rm "$name"
+    docker rm "$name"
   fi
 }
+

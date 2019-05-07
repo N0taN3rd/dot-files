@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# shellcheck disable=1090
+
+export PYENV_ROOT="$HOME/.pyenv"
+export N_PREFIX="$HOME/n"
+
+if [[ -d "$N_PREFIX/bin" ]]; then
+    export PATH="$N_PREFIX/bin:$PATH"
+fi
+
+if [[ -d "$PYENV_ROOT/bin" ]]; then
+    export PATH="$PYENV_ROOT/bin:$PATH"
+fi
+
+if [[ -d "$HOME/.local/bin" ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [[ -d "$HOME/.basher/bin" ]]; then
+    export PATH="$HOME/.basher/bin:$PATH"
+fi
+
+if [[ -d "$HOME/bin" ]]; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
+for file in "$(dirname "${BASH_SOURCE[0]}")"/*.sh; do
+    source "$file"
+done
+unset file
+
+PromptExtra="history -a"
+
+if hash pyenv 2>/dev/null; then
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+    PromptExtra="_pyenv_virtualenv_hook;$PromptExtra"
+fi
+
+if hash basher 2>/dev/null; then
+    eval "$(basher init -)"
+fi
+
+__prompt_command() {
+    local EXITCODE="$?"
+    local PATHCOLOR="3"
+
+    PS1="\n\e[3${PATHCOLOR}m \w \n";
+
+    if [ $EXITCODE == 0 ]; then
+        PS1+="\e[32m\$ \e[0m";
+    else
+        PS1+="\e[31m\$ \e[0m";
+    fi
+}
+
+PROMPT_COMMAND="$PromptExtra;__prompt_command"
+
+alias nodejs="node"
+
+
