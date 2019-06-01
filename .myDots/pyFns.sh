@@ -28,7 +28,6 @@ gotoPyProj() {
   rm ~/PycharmProjects/quit.txt
   if [[ "$cdDir" != "exit" ]]; then
     if [[ -d "$cdDir" ]]; then
-      echo "You picked $cdDir"
       cd "$cdDir" || echo "Could not cd into $cdDir"
       activateVenv
     else
@@ -68,4 +67,3 @@ pipUpgradeDevReqs() {
 pyFormat() {
   black --py36 "$@"
 }
-

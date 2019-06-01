@@ -29,33 +29,28 @@ for file in "$(dirname "${BASH_SOURCE[0]}")"/*.sh; do
 done
 unset file
 
-PromptExtra="history -a"
-
 if hash pyenv 2>/dev/null; then
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
-    PromptExtra="_pyenv_virtualenv_hook;$PromptExtra"
 fi
 
 if hash basher 2>/dev/null; then
     eval "$(basher init -)"
 fi
 
-__prompt_command() {
-    local EXITCODE="$?"
-    local PATHCOLOR="3"
+alias nodejs="node"
 
-    PS1="\n\e[3${PATHCOLOR}m \w \n";
-
+__exit_code_color() {
+    local EXITCODE=$?
     if [ $EXITCODE == 0 ]; then
-        PS1+="\e[32m\$ \e[0m";
+        printf "\e[0;32m"
     else
-        PS1+="\e[31m\$ \e[0m";
+        printf "\e[0;31m"
     fi
 }
 
-PROMPT_COMMAND="$PromptExtra;__prompt_command"
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-alias nodejs="node"
+PS1='\r\n\[\e[0;33m\] \w \r\n\[$(__exit_code_color)\]\$ \[\e[0m\]'
 
-
+export PS1

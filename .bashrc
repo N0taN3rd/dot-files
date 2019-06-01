@@ -11,7 +11,7 @@ case $- in
 esac
 
 if [[ -f "$HOME/.myDots/sensible.bash" ]]; then
-   source "$HOME/.myDots/sensible.bash"
+    source "$HOME/.myDots/sensible.bash"
 fi
 
 # make less more friendly for non-text input files, see lesspipe(1)
@@ -90,4 +90,3 @@ fi
 if [[ -d "$HOME/.myDots" && -f "$HOME/.myDots/init" ]]; then
     source "$HOME/.myDots/init"
 fi
-

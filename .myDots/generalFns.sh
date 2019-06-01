@@ -126,7 +126,7 @@ extract() {
 }
 
 installDeb() {
-  sudo gdebi "$1"
+  yes | sudo gdebi "$1"
 }
 
 makeScriptRunnable() {
@@ -173,9 +173,19 @@ whois() {
 }
 
 trim_string() {
-  # Usage: trim_string "   example   string    "
   : "${1#"${1%%[![:space:]]*}"}"
   : "${_%"${_##*[![:space:]]}"}"
   printf '%s' "$_"
 }
 
+downloadAndInstallDeb() {
+  : "${1%/}"
+  : "${_##*/}"
+  local dlp="/tmp/$_"
+  if wget -O "$dlp" "$1"; then
+    installDeb "$1"
+  else
+    printf "\e[0;31m Failed to download %s" "$1"
+  fi
+  rm "$dlp"
+}

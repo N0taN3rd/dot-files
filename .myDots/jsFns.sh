@@ -21,7 +21,6 @@ gotoJSProj() {
   rm ~/WebstormProjects/quit.txt
   if [[ "$cdDir" != "exit" ]]; then
     if [[ -d "$cdDir" ]]; then
-      echo "You picked $cdDir"
       cd "$cdDir" || echo "Could not cd into $cdDir"
     else
       echo "Could not cd into $cdDir"
@@ -60,4 +59,3 @@ jsFormatPrettierStandard() {
 jsFormatPrettier() {
   node ./node_modules/.bin/prettier --write "$@"
 }
-

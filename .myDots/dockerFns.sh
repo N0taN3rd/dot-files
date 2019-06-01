@@ -33,7 +33,7 @@ dPS() {
 }
 
 dImages() {
-  docker images ls
+  docker image ls
 }
 
 dImagesRm() {
@@ -45,11 +45,19 @@ dImagesRmForce() {
 }
 
 dContainers() {
-  docker containers ls
+  docker container ls
 }
 
 dContainerRm() {
   docker container rm "$@"
+}
+
+dLogs() {
+  docker logs "$1"
+}
+
+dLogsToFile() {
+  docker logs "$1" >&"$2"
 }
 
 dContainerReliesOn() {
@@ -85,3 +93,8 @@ dRemoveStopped() {
   fi
 }
 
+dRemoveNoneImages() {
+  for img in $(docker image ls | grep "<none>" | awk '{ print $3 }'); do
+    docker rmi "$img"
+  done
+}
